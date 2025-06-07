@@ -9,9 +9,9 @@ const Footer = () => {
           </p>
         </div>
         <div style={socialStyle}>
-          <a href="#" aria-label="Facebook" style={linkStyle}>Facebook</a>
-          <a href="#" aria-label="Twitter" style={linkStyle}>Twitter</a>
-          <a href="#" aria-label="Instagram" style={linkStyle}>Instagram</a>
+          <a href="https://web.facebook.com/frankonyaboga" aria-label="Facebook" style={linkStyle}>Facebook</a>
+          <a href="https://x.com/franknyaboga_" aria-label="Twitter" style={linkStyle}>Twitter</a>
+          <a href="https://mail.google.com/mail/u/0/?fs=1&to=techsupport@eduengine.co.ke&tf=cm" aria-label="Instagram" style={linkStyle}>Contact us</a>
         </div>
       </div>
       <div style={copyStyle}>

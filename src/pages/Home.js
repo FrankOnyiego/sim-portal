@@ -44,10 +44,6 @@ const HomePage = () => {
         <h2>About Us</h2>
         <p>We are dedicated to providing high-quality educational tools and resources to help you achieve your learning goals.</p>
       </section>
-
-      <footer className="footer">
-        <p>Eduengine © 2025 | All Rights Reserved</p>
-      </footer>
     </div>
   );
 };

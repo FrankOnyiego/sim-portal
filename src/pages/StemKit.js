@@ -71,7 +71,14 @@ const STEMKitsPage = () => {
               </ul>
               <div className="kit-footer">
                 <span className="kit-price">{kit.price}</span>
-                <button className="buy-button">Buy Now</button>
+                <a
+  href={`https://wa.me/254703409780?text=I'm%20interested%20in%20the%20${encodeURIComponent(kit.name)}.`}
+  target="_blank"
+  rel="noopener noreferrer"
+  className="buy-button"
+>
+  Buy Now
+</a>
               </div>
             </div>
           </div>
