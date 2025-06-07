@@ -27,9 +27,10 @@ const HomePage = () => {
 </div>
 
 <div className="feature-card">
-  <h3>Interactive Communities</h3>
-  <p>Get detailed explanations and insights from peers.</p>
+  <h3>STEM Kits</h3>
+  <p>Explore hands-on science with affordable STEM kits tailored for students in Kenya.</p>
 </div>
+
 
 
         <div className="feature-card">

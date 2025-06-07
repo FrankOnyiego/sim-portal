@@ -1,0 +1,101 @@
+.kits-page {
+  font-family: Arial, sans-serif;
+  background-color: #f3f4f6;
+  padding: 20px;
+  min-height: 100vh;
+}
+
+.kits-header {
+  text-align: center;
+  padding: 30px 10px;
+  background-color: white;
+  margin-bottom: 30px;
+}
+
+.kits-header h1 {
+  color: #1e40af;
+  font-size: 2rem;
+  margin-bottom: 10px;
+}
+
+.kits-header p {
+  color: #4b5563;
+  font-size: 1.1rem;
+}
+
+.kits-container {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 25px;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.kit-card {
+  display: grid;
+  grid-template-columns: 150px 1fr;
+  background-color: white;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.kit-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.kit-info {
+  padding: 15px 20px;
+}
+
+.kit-info h2 {
+  margin: 0;
+  font-size: 1.3rem;
+  color: #1f2937;
+}
+
+.kit-info p {
+  margin: 10px 0;
+  color: #374151;
+}
+
+.kit-list {
+  margin: 10px 0;
+  padding-left: 1rem;
+}
+
+.kit-list li {
+  font-size: 0.95rem;
+  color: #1f2937;
+  margin-bottom: 4px;
+}
+
+.kit-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 15px;
+}
+
+.kit-price {
+  font-weight: bold;
+  color: #059669;
+  font-size: 1.1rem;
+}
+
+.buy-button {
+  background-color: #2563eb;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  font-size: 0.95rem;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.buy-button:hover {
+  background-color: #1d4ed8;
+}

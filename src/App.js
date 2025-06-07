@@ -5,6 +5,8 @@ import Header from './components/Header';
 import ChemistryPage from './pages/Chemistry';
 import PhysicsPage from './pages/Physics';
 import HomePage from './pages/Home';
+import STEMKitsPage from './pages/StemKit';
+import Footer from './pages/Footer';
 
 function App() {
   return (
@@ -13,8 +15,10 @@ function App() {
       <Routes>
         <Route path="/chemistry" element={<ChemistryPage />} />
         <Route path="/physics" element={<PhysicsPage />} />
+        <Route path="/stem" element={<STEMKitsPage />} />
         <Route path="/" element={<HomePage/>} />
       </Routes>
+      <Footer />
     </Router>
   );
 }

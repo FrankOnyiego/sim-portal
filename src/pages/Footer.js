@@ -1,0 +1,57 @@
+const Footer = () => {
+  return (
+    <footer style={footerStyle}>
+      <div className="footer-content" style={contentStyle}>
+        <div>
+          <h3 style={{ color: "#2563eb", marginBottom: 8 }}>EduEngine</h3>
+          <p style={{ color: "#555", maxWidth: 300 }}>
+            Empowering learners with hands-on resources designed for Kenyan students. Discover, create, and innovate with EduEngine.
+          </p>
+        </div>
+        <div style={socialStyle}>
+          <a href="#" aria-label="Facebook" style={linkStyle}>Facebook</a>
+          <a href="#" aria-label="Twitter" style={linkStyle}>Twitter</a>
+          <a href="#" aria-label="Instagram" style={linkStyle}>Instagram</a>
+        </div>
+      </div>
+      <div style={copyStyle}>
+        &copy; {new Date().getFullYear()} EduEngine. All rights reserved.
+      </div>
+    </footer>
+  );
+};
+
+const footerStyle = {
+  backgroundColor: "black",
+  padding: "20px 40px",
+  marginTop: "60px",
+};
+
+const contentStyle = {
+  display: "flex",
+  justifyContent: "space-between",
+  alignItems: "center",
+  flexWrap: "wrap",
+  gap: "20px",
+};
+
+const socialStyle = {
+  display: "flex",
+  gap: "15px",
+};
+
+const linkStyle = {
+  color: "#2563eb",
+  textDecoration: "none",
+  fontWeight: "600",
+  cursor: "pointer",
+};
+
+const copyStyle = {
+  marginTop: "15px",
+  textAlign: "center",
+  fontSize: "0.9rem",
+  color: "#777",
+};
+
+export default Footer;

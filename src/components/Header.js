@@ -24,6 +24,7 @@ const Header = () => (
     <nav style={{ display: 'flex', gap: '20px' }}>
       <Link to="/chemistry" style={{ color: 'white', textDecoration: 'none' }}>Chemistry</Link>
       <Link to="/physics" style={{ color: 'white', textDecoration: 'none' }}>Physics</Link>
+      <Link to="/stem" style={{ color: 'white', textDecoration: 'none' }}>Kits</Link>
       <a 
   href="https://mail.google.com/mail/?view=cm&fs=1&to=techsupport@eduengine.co.ke" 
   style={{ color: 'white', textDecoration: 'none' }}
