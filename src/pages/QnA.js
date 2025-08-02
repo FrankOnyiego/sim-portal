@@ -1,33 +1,30 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 function QnA() {
-  const [questions, setQuestions] = useState([
-    {
-      id: 1,
-      text: 'What are isotopes?',
-      reward: 150,
-      topic: 'Atomic Structure',
-      asker: 'Student123',
-      timestamp: 'Today, 10:00 AM',
-      bids: 2,
-    },
-    {
-      id: 2,
-      text: 'Difference between physical and chemical change?',
-      reward: 100,
-      topic: 'Changes in Matter',
-      asker: 'GraceChem',
-      timestamp: 'Today, 11:00 AM',
-      bids: 0,
-    },
-  ]);
-
-  // Example: Assume this is calculated based on completed answers
-  const [totalEarnings, setTotalEarnings] = useState(500);
+  const [questions, setQuestions] = useState([]);
+  const [totalEarnings, setTotalEarnings] = useState(0); // Adjust this later from backend if needed
   const [withdrawMessage, setWithdrawMessage] = useState('');
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState('');
+
+  useEffect(() => {
+    fetch('https://ischool.eduengine.co.ke/api/questions')
+      .then(response => {
+        if (!response.ok) throw new Error('Failed to fetch questions');
+        return response.json();
+      })
+      .then(data => {
+        setQuestions(data.questions || data); // depending on how your API responds
+        setLoading(false);
+      })
+      .catch(err => {
+        setError(err.message || 'Something went wrong');
+        setLoading(false);
+      });
+  }, []);
 
   const handleWithdraw = () => {
-    // Example: Replace with real backend call later
+    // You can later make this trigger a backend endpoint (e.g., /withdraw)
     setWithdrawMessage(`KES ${totalEarnings} withdrawal requested!`);
     setTotalEarnings(0);
   };
@@ -65,7 +62,11 @@ function QnA() {
       </div>
 
       {/* 💬 Questions List */}
-      {questions.length === 0 ? (
+      {loading ? (
+        <p>Loading questions...</p>
+      ) : error ? (
+        <p style={{ color: 'red' }}>❌ {error}</p>
+      ) : questions.length === 0 ? (
         <p>No questions have been asked yet.</p>
       ) : (
         questions.map((q) => (

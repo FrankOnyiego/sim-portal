@@ -225,7 +225,7 @@ const handleRaiseHand = async () => {
             <textarea
               value={questionText}
               onChange={(e) => setQuestionText(e.target.value)}
-              placeholder="Ask your question here..."
+              placeholder="Describe the lesson you are requesting for here..."
               style={{ width: '100%', padding: '10px', borderRadius: '5px', marginBottom: '10px' }}
             />
             <div style={{ display: 'flex', gap: '10px', marginBottom: '10px' }}>
@@ -233,7 +233,7 @@ const handleRaiseHand = async () => {
                 type="number"
                 value={reward}
                 onChange={(e) => setReward(e.target.value)}
-                placeholder="Reward in KES"
+                placeholder="Enter the amount you are willing to spend in KES"
                 style={{ padding: '8px', flex: 1 }}
               />
               <button
@@ -247,7 +247,7 @@ const handleRaiseHand = async () => {
                   cursor: 'pointer',
                 }}
               >
-                Ask a question(Not Free)
+                  Request a Lesson(Not Free)
               </button>
             </div>
           </div>

@@ -221,12 +221,98 @@ const forms = {
 
 function Physics() {
   const [selectedSimulation, setSelectedSimulation] = useState(null);
+  const [questions, setQuestions] = useState([]);
+  const [questionText, setQuestionText] = useState('');
+  const [reward, setReward] = useState('');
+  const [bidMessage, setBidMessage] = useState('');
+
+const handleRaiseHand = async () => {
+  if (questionText && reward) {
+    try {
+      const response = await fetch('https://ischool.eduengine.co.ke/api/questions', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          userId: 1, // Replace with the actual logged-in user's ID
+          question: questionText,
+          reward: parseFloat(reward),
+        }),
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        alert('Question submitted successfully!');
+        setQuestionText('');
+        setReward('');
+        // Optionally add it to local UI
+        setQuestions(prev => [
+          ...prev,
+          {
+            id: data.questionId,
+            text: questionText,
+            reward: parseFloat(reward),
+            timestamp: new Date().toLocaleTimeString(),
+            asker: 'You',
+          },
+        ]);
+      } else {
+        alert(data.message || 'Failed to submit question');
+      }
+    } catch (error) {
+      console.error('Error posting question:', error);
+      alert('An error occurred while submitting your question.');
+    }
+  } else {
+    alert('Please enter both question text and reward.');
+  }
+};
+
+
+  const handleBid = (qid) => {
+    alert(`Bid submitted for question #${qid}: "${bidMessage}"`);
+    setBidMessage('');
+  };
+
 
   return (
     <div className="App" style={{ padding: '20px' }}>
       {!selectedSimulation ? (
         <>
           <h1>Physics Learning Simulations</h1>
+                    <div style={{ padding: '20px', border: '1px solid #ccc', marginBottom: '30px', borderRadius: '10px' }}>
+            <h2>Request a Lesson</h2>
+            <textarea
+              value={questionText}
+              onChange={(e) => setQuestionText(e.target.value)}
+              placeholder="Describe the lesson you are requesting for here..."
+              style={{ width: '100%', padding: '10px', borderRadius: '5px', marginBottom: '10px' }}
+            />
+            <div style={{ display: 'flex', gap: '10px', marginBottom: '10px' }}>
+              <input
+                type="number"
+                value={reward}
+                onChange={(e) => setReward(e.target.value)}
+                placeholder="Enter the amount you are willing to spend in KES"
+                style={{ padding: '8px', flex: 1 }}
+              />
+              <button
+                onClick={handleRaiseHand}
+                style={{
+                  backgroundColor: '#28a745',
+                  color: '#fff',
+                  padding: '10px',
+                  border: 'none',
+                  borderRadius: '5px',
+                  cursor: 'pointer',
+                }}
+              >
+                  Request a Lesson(Not Free)
+              </button>
+            </div>
+          </div>
           {Object.entries(forms).map(([formName, topics]) => (
             <div key={formName} style={{ marginBottom: '30px' }}>
               <h2>{formName}</h2>
