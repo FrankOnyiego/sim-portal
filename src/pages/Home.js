@@ -8,7 +8,7 @@ const HomePage = () => {
       <header className="hero-section">
         <div className="hero-content">
           <h1>Access Free Teaching aids!</h1>
-          <p>Take the classroom outside to Explore, learn, and grow.</p>
+          <p>Make the classroom to Explore, learn, and grow.</p>
           <a 
             href="https://chat.whatsapp.com/BCnURfiw7irEGnLIoYHH47" 
             style={{ color: 'white', textDecoration: 'none' }} 
@@ -16,29 +16,26 @@ const HomePage = () => {
             rel="noopener noreferrer" 
             className="cta-button"
           >
-            <i className="fab fa-whatsapp" style={{ marginRight: '8px' }}></i> Join chat          </a>
+            <i className="fab fa-whatsapp" style={{ marginRight: '8px' }}></i> Join Our Whatsapp group          </a>
         </div>
       </header>
 
-      <section className="features-section">
-      <div className="feature-card">
-  <h3>Physics Simulations</h3>
-  <p>Engaging simulations to explore every physics concept.</p>
-</div>
+<section className="features-section">
+  <Link to="/physics" className="feature-card">
+    <h3>Physics Simulations</h3>
+    <p>Engaging simulations to explore every physics concept.</p>
+  </Link>
 
-<div className="feature-card">
-  <h3>STEM Kits</h3>
-  <p>Explore hands-on science with affordable STEM kits tailored for students in Kenya.</p>
-</div>
+  <Link to="/stem" className="feature-card">
+    <h3>STEM Kits</h3>
+    <p>Explore hands-on science with affordable STEM kits tailored for students in Kenya.</p>
+  </Link>
 
-
-
-        <div className="feature-card">
-  <h3>Chemistry Simulations</h3>
-  <p>Explore chemistry reactions and concepts through interactive simulations.</p>
-</div>
-
-      </section>
+  <Link to="/chemistry" className="feature-card">
+    <h3>Chemistry Simulations</h3>
+    <p>Explore chemistry reactions and concepts through interactive simulations.</p>
+  </Link>
+</section>
 
       <section className="about-section">
         <h2>About Us</h2>

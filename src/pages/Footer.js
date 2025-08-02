@@ -3,7 +3,7 @@ const Footer = () => {
     <footer style={footerStyle}>
       <div className="footer-content" style={contentStyle}>
         <div>
-          <h3 style={{ color: "#2563eb", marginBottom: 8 }}>EduEngine</h3>
+          <h3 style={{ color: "#2563eb", marginBottom: 8 }}><a href="https://www.eduengine.co.ke">EduEngine</a></h3>
           <p style={{ color: "#555", maxWidth: 300 }}>
             Empowering learners with hands-on resources designed for Kenyan students. Discover, create, and innovate with EduEngine.
           </p>

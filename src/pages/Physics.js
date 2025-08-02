@@ -39,7 +39,7 @@ const forms = {
         {
           title: 'Speed, Velocity, and Acceleration',
           note: 'Understand the relationship between speed, velocity, and acceleration.',
-          simulationUrl: '', // placeholder
+          simulationUrl: 'https://phet.colorado.edu/sims/html/forces-and-motion-basics/latest/forces-and-motion-basics_en.html', // placeholder
         },
       ],
     },
@@ -95,21 +95,6 @@ const forms = {
           simulationUrl: 'https://phet.colorado.edu/sims/html/geometric-optics/latest/geometric-optics_en.html'
         }
       ]
-    },    
-    {
-      title: 'Waves and Sound',
-      subtopics: [
-        {
-          title: 'Properties of Waves',
-          note: 'Explore the characteristics of waves such as wavelength and frequency.',
-          simulationUrl: 'https://phet.colorado.edu/sims/html/sound-waves/latest/sound-waves_en.html',
-        },
-        {
-          title: 'Speed of Sound',
-          note: 'Understand how sound travels through different media.',
-          simulationUrl: '',
-        },
-      ],
     },
     {
       title: 'Waves and Sound',
@@ -122,7 +107,7 @@ const forms = {
         {
           title: 'Speed of Sound',
           note: 'Understand how sound travels through different media.',
-          simulationUrl: '',
+          simulationUrl: 'https://phet.colorado.edu/sims/html/wave-on-a-string/latest/wave-on-a-string_all.html',
         },
       ],
     },
@@ -227,7 +212,7 @@ const forms = {
         {
           title: 'Quantum Mechanics',
           note: 'Introduction to the concepts of quantum mechanics and uncertainty principle.',
-          simulationUrl: '',
+          simulationUrl: 'https://phet.colorado.edu/sims/html/models-of-the-hydrogen-atom/latest/models-of-the-hydrogen-atom_all.html',
         },
       ],
     },

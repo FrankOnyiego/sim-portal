@@ -80,7 +80,7 @@ const forms = {
         {
           title: "Formation and Properties of Salts",
           note: "Understand how salts are formed from acid-base reactions, explore their properties, and investigate common types of salts.",
-          simulationUrl: "https://phet.colorado.edu/sims/cheerpj/soluble-salts/latest/soluble-salts.html?simulation=soluble-salts", 
+          simulationUrl: "https://phet.colorado.edu/sims/html/acid-base-solutions/latest/acid-base-solutions_all.html", 
         },
       ],
     },
@@ -158,12 +158,101 @@ const forms = {
 
 function Chemistry() {
   const [selectedSimulation, setSelectedSimulation] = useState(null);
+  const [questions, setQuestions] = useState([]);
+  const [questionText, setQuestionText] = useState('');
+  const [reward, setReward] = useState('');
+  const [bidMessage, setBidMessage] = useState('');
+
+const handleRaiseHand = async () => {
+  if (questionText && reward) {
+    try {
+      const response = await fetch('https://ischool.eduengine.co.ke/api/questions', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          userId: 1, // Replace with the actual logged-in user's ID
+          question: questionText,
+          reward: parseFloat(reward),
+        }),
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        alert('Question submitted successfully!');
+        setQuestionText('');
+        setReward('');
+        // Optionally add it to local UI
+        setQuestions(prev => [
+          ...prev,
+          {
+            id: data.questionId,
+            text: questionText,
+            reward: parseFloat(reward),
+            timestamp: new Date().toLocaleTimeString(),
+            asker: 'You',
+          },
+        ]);
+      } else {
+        alert(data.message || 'Failed to submit question');
+      }
+    } catch (error) {
+      console.error('Error posting question:', error);
+      alert('An error occurred while submitting your question.');
+    }
+  } else {
+    alert('Please enter both question text and reward.');
+  }
+};
+
+
+  const handleBid = (qid) => {
+    alert(`Bid submitted for question #${qid}: "${bidMessage}"`);
+    setBidMessage('');
+  };
 
   return (
     <div className="App" style={{ padding: '20px' }}>
       {!selectedSimulation ? (
         <>
           <h1>Chemistry Learning Simulations</h1>
+          
+          {/* Raise Hand Section */}
+          <div style={{ padding: '20px', border: '1px solid #ccc', marginBottom: '30px', borderRadius: '10px' }}>
+            <h2>Request a Lesson</h2>
+            <textarea
+              value={questionText}
+              onChange={(e) => setQuestionText(e.target.value)}
+              placeholder="Ask your question here..."
+              style={{ width: '100%', padding: '10px', borderRadius: '5px', marginBottom: '10px' }}
+            />
+            <div style={{ display: 'flex', gap: '10px', marginBottom: '10px' }}>
+              <input
+                type="number"
+                value={reward}
+                onChange={(e) => setReward(e.target.value)}
+                placeholder="Reward in KES"
+                style={{ padding: '8px', flex: 1 }}
+              />
+              <button
+                onClick={handleRaiseHand}
+                style={{
+                  backgroundColor: '#28a745',
+                  color: '#fff',
+                  padding: '10px',
+                  border: 'none',
+                  borderRadius: '5px',
+                  cursor: 'pointer',
+                }}
+              >
+                Ask a question(Not Free)
+              </button>
+            </div>
+          </div>
+
+          {/* Existing Simulation Section */}
           {Object.entries(forms).map(([formName, topics]) => (
             <div key={formName} style={{ marginBottom: '30px' }}>
               <h2>{formName}</h2>

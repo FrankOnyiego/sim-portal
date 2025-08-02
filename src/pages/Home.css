@@ -182,3 +182,17 @@ body {
     font-size: 14px;
   }
 }
+
+.feature-card {
+  text-decoration: none;
+  color: inherit;
+}
+
+.feature-card p, 
+.feature-card h3 {
+  margin: 0;
+}
+
+.feature-card:hover {
+  cursor: pointer;
+}

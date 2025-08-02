@@ -7,6 +7,9 @@ import PhysicsPage from './pages/Physics';
 import HomePage from './pages/Home';
 import STEMKitsPage from './pages/StemKit';
 import Footer from './pages/Footer';
+import ImageEnhancer from './pages/ImageEnhancer';
+import MastersConsultation from './pages/Masters';
+import QnA from './pages/QnA';
 
 function App() {
   return (
@@ -15,7 +18,10 @@ function App() {
       <Routes>
         <Route path="/chemistry" element={<ChemistryPage />} />
         <Route path="/physics" element={<PhysicsPage />} />
+        <Route path="/questions" element={<QnA />} />
         <Route path="/stem" element={<STEMKitsPage />} />
+        <Route path="search" element={<ImageEnhancer/>} />
+        <Route path="consult" element={<MastersConsultation/>} />
         <Route path="/" element={<HomePage/>} />
       </Routes>
       <Footer />
