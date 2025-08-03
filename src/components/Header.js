@@ -4,12 +4,13 @@ import { Link } from 'react-router-dom';
 const Header = () => {
   const [menuOpen, setMenuOpen] = useState(false);
   const toggleMenu = () => setMenuOpen(!menuOpen);
+  const closeMenu = () => setMenuOpen(false); // ← Closes menu
 
   return (
     <header style={styles.header}>
       <div style={styles.container}>
         {/* Logo */}
-        <Link to="/" style={styles.logoLink}>
+        <Link to="/" style={styles.logoLink} onClick={closeMenu}>
           <img 
             src="/MYLOGO.png"
             alt="Sim-portal Logo"
@@ -35,11 +36,11 @@ const Header = () => {
             ...(menuOpen ? styles.navOpen : {}),
           }}
         >
-          <Link to="/chemistry" style={styles.navLink}>Chemistry</Link>
-          <Link to="/physics" style={styles.navLink}>Physics</Link>
-          <Link to="/consult" style={styles.navLink}>Projects</Link>
-          <Link to="/stem" style={styles.navLink}>Kits</Link>
-          <Link to="/questions" style={styles.navLink}>Q&A</Link>
+          <Link to="/chemistry" style={styles.navLink} onClick={closeMenu}>Chemistry</Link>
+          <Link to="/physics" style={styles.navLink} onClick={closeMenu}>Physics</Link>
+          <Link to="/consult" style={styles.navLink} onClick={closeMenu}>Projects</Link>
+          <Link to="/stem" style={styles.navLink} onClick={closeMenu}>Kits</Link>
+          <Link to="/questions" style={styles.navLink} onClick={closeMenu}>Requests</Link>
         </nav>
       </div>
 
@@ -109,7 +110,7 @@ const styles = {
   nav: {
     display: 'none',
     flexDirection: 'column',
-    alignItems: 'flex-start', // left-align on small screens
+    alignItems: 'flex-start',
     background: '#2b2b2b',
     width: '100%',
     padding: '10px 0',

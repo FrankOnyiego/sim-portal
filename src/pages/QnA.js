@@ -2,10 +2,11 @@ import React, { useEffect, useState } from 'react';
 
 function QnA() {
   const [questions, setQuestions] = useState([]);
-  const [totalEarnings, setTotalEarnings] = useState(0); // Adjust this later from backend if needed
+  const [totalEarnings, setTotalEarnings] = useState(501);
   const [withdrawMessage, setWithdrawMessage] = useState('');
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
+  const [bidMessage, setBidMessage] = useState('');
 
   useEffect(() => {
     fetch('https://ischool.eduengine.co.ke/api/questions')
@@ -14,7 +15,7 @@ function QnA() {
         return response.json();
       })
       .then(data => {
-        setQuestions(data.questions || data); // depending on how your API responds
+        setQuestions(data.questions || data);
         setLoading(false);
       })
       .catch(err => {
@@ -23,16 +24,57 @@ function QnA() {
       });
   }, []);
 
-  const handleWithdraw = () => {
-    // You can later make this trigger a backend endpoint (e.g., /withdraw)
-    setWithdrawMessage(`KES ${totalEarnings} withdrawal requested!`);
-    setTotalEarnings(0);
+  const handleWithdraw = async () => {
+    try {
+      const response = await fetch('https://ischool.eduengine.co.ke/api/earnings/withdraw', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ amount: totalEarnings, userId: 1 }), // Replace userId
+      });
+
+      const result = await response.json();
+
+      if (response.ok && result.success) {
+        setWithdrawMessage(result.message || 'Withdrawal requested.');
+        setTotalEarnings(0);
+      } else {
+        setWithdrawMessage(result.message || 'Withdrawal failed.');
+      }
+    } catch (err) {
+      setWithdrawMessage('Server error during withdrawal.');
+      console.error(err);
+    }
+  }; 
+
+  const handlePlaceBid = async (questionId) => {
+    try {
+      const response = await fetch(`https://ischool.eduengine.co.ke/api/bids`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          questionId,
+          userId: 1, // Replace with real user ID
+          bidAmount: 0, // Or actual bid input if needed
+        }),
+      });
+
+      const data = await response.json();
+
+      if (response.ok && data.success) {
+        setBidMessage(`Bid placed on question #${questionId}`);
+      } else {
+        setBidMessage(data.message || 'Failed to place bid.');
+      }
+    } catch (err) {
+      console.error('Bid error:', err);
+      setBidMessage('Server error during bidding.');
+    }
   };
 
   return (
     <div style={{ padding: '30px', fontFamily: 'Arial' }}>
-      <h1>📚 Live Q&A Feed</h1>
-      <p>Explore all questions and place your bid to answer them for a reward.</p>
+      <h1>📚 Requested Lessons</h1>
+      <p>Explore all requests and place your bid to handle them for a reward.</p>
 
       {/* 💰 Earnings Summary */}
       <div style={{
@@ -63,7 +105,7 @@ function QnA() {
 
       {/* 💬 Questions List */}
       {loading ? (
-        <p>Loading questions...</p>
+        <p>Loading Requests...</p>
       ) : error ? (
         <p style={{ color: 'red' }}>❌ {error}</p>
       ) : questions.length === 0 ? (
@@ -83,13 +125,13 @@ function QnA() {
             <h3 style={{ marginBottom: '5px' }}>💬 {q.text}</h3>
             <p>
               <strong>Reward:</strong> KES {q.reward} <br />
-              <strong>Topic:</strong> {q.topic} <br />
+              <strong>Request:</strong> {q.question} <br />
               <strong>Asked by:</strong> {q.asker} <br />
-              <strong>Posted:</strong> {q.timestamp} <br />
+              <strong>Posted:</strong> {q.created_at} <br />
               <strong>Bids:</strong> {q.bids}
             </p>
             <button
-              onClick={() => alert(`Redirecting to answer bid form for question #${q.id}`)}
+              onClick={() => handlePlaceBid(q.id)}
               style={{
                 marginTop: '10px',
                 backgroundColor: '#007bff',
@@ -100,11 +142,12 @@ function QnA() {
                 cursor: 'pointer',
               }}
             >
-              Bid to Answer
+              Place bid
             </button>
           </div>
         ))
       )}
+      {bidMessage && <p style={{ marginTop: '20px', color: '#004085' }}>{bidMessage}</p>}
     </div>
   );
 }

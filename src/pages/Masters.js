@@ -26,6 +26,7 @@ href="https://wa.me/254112643522?text=Hello%2C%20I%20have%20a%20project%20in%20C
         <div className="grid md:grid-cols-2 gap-6">
           {[
             "Research topic in Physics or Chemistry.",
+            "Kenya Science Engineering Fair Projects",
             "Lab-based experiments.",
             "Data analysis (SPSS, Python, Excel, OriginLab).",
             "Simulation projects using custom tools.",

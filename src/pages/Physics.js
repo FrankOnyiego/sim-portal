@@ -227,8 +227,37 @@ function Physics() {
   const [bidMessage, setBidMessage] = useState('');
 
 const handleRaiseHand = async () => {
-  if (questionText && reward) {
-    try {
+  if (!questionText || !reward) {
+    alert('Please enter both question text and reward.');
+    return;
+  }
+
+  try {
+    // Step 1: Request payment initiation URL from your backend
+    const paymentInitRes = await fetch('https://ischool.eduengine.co.ke/api/initiate-payment', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        amount: parseFloat(reward),
+        description: questionText,
+        userId: 1, // Replace with logged-in user ID
+      }),
+    });
+
+    const paymentData = await paymentInitRes.json();
+
+    if (paymentInitRes.ok && paymentData.redirect_url) {
+      // Step 2: Redirect to Pesapal payment
+      window.open(paymentData.redirect_url, '_blank');
+
+      // Step 3: Ask user to confirm payment
+      const confirm = window.confirm('After completing payment, click OK to post your question.');
+
+      if (!confirm) return;
+
+      // Step 4: Post the question assuming payment will be confirmed later by backend
       const response = await fetch('https://ischool.eduengine.co.ke/api/questions', {
         method: 'POST',
         headers: {
@@ -238,6 +267,7 @@ const handleRaiseHand = async () => {
           userId: 1, // Replace with the actual logged-in user's ID
           question: questionText,
           reward: parseFloat(reward),
+          paymentRef: paymentData.order_id, // Use order_id as temporary reference
         }),
       });
 
@@ -247,7 +277,6 @@ const handleRaiseHand = async () => {
         alert('Question submitted successfully!');
         setQuestionText('');
         setReward('');
-        // Optionally add it to local UI
         setQuestions(prev => [
           ...prev,
           {
@@ -261,15 +290,14 @@ const handleRaiseHand = async () => {
       } else {
         alert(data.message || 'Failed to submit question');
       }
-    } catch (error) {
-      console.error('Error posting question:', error);
-      alert('An error occurred while submitting your question.');
+    } else {
+      alert('Failed to initiate payment.');
     }
-  } else {
-    alert('Please enter both question text and reward.');
+  } catch (error) {
+    console.error('Error raising hand:', error);
+    alert('Something went wrong during the payment process.');
   }
 };
-
 
   const handleBid = (qid) => {
     alert(`Bid submitted for question #${qid}: "${bidMessage}"`);
@@ -282,37 +310,44 @@ const handleRaiseHand = async () => {
       {!selectedSimulation ? (
         <>
           <h1>Physics Learning Simulations</h1>
-                    <div style={{ padding: '20px', border: '1px solid #ccc', marginBottom: '30px', borderRadius: '10px' }}>
-            <h2>Request a Lesson</h2>
-            <textarea
-              value={questionText}
-              onChange={(e) => setQuestionText(e.target.value)}
-              placeholder="Describe the lesson you are requesting for here..."
-              style={{ width: '100%', padding: '10px', borderRadius: '5px', marginBottom: '10px' }}
-            />
-            <div style={{ display: 'flex', gap: '10px', marginBottom: '10px' }}>
-              <input
-                type="number"
-                value={reward}
-                onChange={(e) => setReward(e.target.value)}
-                placeholder="Enter the amount you are willing to spend in KES"
-                style={{ padding: '8px', flex: 1 }}
-              />
-              <button
-                onClick={handleRaiseHand}
-                style={{
-                  backgroundColor: '#28a745',
-                  color: '#fff',
-                  padding: '10px',
-                  border: 'none',
-                  borderRadius: '5px',
-                  cursor: 'pointer',
-                }}
-              >
-                  Request a Lesson(Not Free)
-              </button>
-            </div>
-          </div>
+<div style={{ padding: '20px', border: '1px solid #ccc', marginBottom: '30px', borderRadius: '10px' }}>
+  <h2>Request a Lesson</h2>
+  <p style={{ color: "red" }}>For learners only</p>
+  <form onSubmit={handleRaiseHand}>
+    <textarea
+      value={questionText}
+      onChange={(e) => setQuestionText(e.target.value)}
+      placeholder="Describe the lesson you are requesting to be taught here..."
+      style={{ width: '100%', padding: '10px', borderRadius: '5px', marginBottom: '10px' }}
+      required
+    />
+    <div style={{ display: 'flex', gap: '10px', marginBottom: '10px' }}>
+      <input
+        type="number"
+        value={reward}
+        onChange={(e) => setReward(e.target.value)}
+        placeholder="Enter the amount you are willing to spend in KES"
+        style={{ padding: '8px', flex: 1 }}
+        required
+        min="1"
+      />
+      <button
+        type="submit"
+        style={{
+          backgroundColor: '#28a745',
+          color: '#fff',
+          padding: '10px',
+          border: 'none',
+          borderRadius: '5px',
+          cursor: 'pointer',
+        }}
+      >
+        Request a Lesson (Not Free)
+      </button>
+    </div>
+  </form>
+</div>
+
           {Object.entries(forms).map(([formName, topics]) => (
             <div key={formName} style={{ marginBottom: '30px' }}>
               <h2>{formName}</h2>
