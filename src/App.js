@@ -1,4 +1,3 @@
-// App.js
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Header from './components/Header';
@@ -10,6 +9,7 @@ import Footer from './pages/Footer';
 import ImageEnhancer from './pages/ImageEnhancer';
 import MastersConsultation from './pages/Masters';
 import QnA from './pages/QnA';
+import AuthPage from './pages/AuthPage'; // login/signup
 
 function App() {
   return (
@@ -18,11 +18,12 @@ function App() {
       <Routes>
         <Route path="/chemistry" element={<ChemistryPage />} />
         <Route path="/physics" element={<PhysicsPage />} />
-        <Route path="/questions" element={<QnA />} />
+        <Route path="/requests" element={<QnA />} />
         <Route path="/stem" element={<STEMKitsPage />} />
-        <Route path="search" element={<ImageEnhancer/>} />
-        <Route path="consult" element={<MastersConsultation/>} />
-        <Route path="/" element={<HomePage/>} />
+        <Route path="/search" element={<ImageEnhancer />} />
+        <Route path="/consult" element={<MastersConsultation />} />
+        <Route path="/auth" element={<AuthPage />} /> {/* 👈 Only at /auth */}
+        <Route path="/" element={<HomePage />} />
       </Routes>
       <Footer />
     </Router>

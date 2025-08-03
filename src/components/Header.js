@@ -1,21 +1,45 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 
 const Header = () => {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [userName, setUserName] = useState(null);
+  const location = useLocation();
+  const navigate = useNavigate();
+
   const toggleMenu = () => setMenuOpen(!menuOpen);
-  const closeMenu = () => setMenuOpen(false); // ← Closes menu
+  const closeMenu = () => setMenuOpen(false);
+
+  // Check localStorage for user on route change
+  useEffect(() => {
+    closeMenu();
+    const storedUser = localStorage.getItem('user');
+    if (storedUser) {
+      try {
+        const parsed = JSON.parse(storedUser);
+        setUserName(parsed.name);
+        //alert(parsed.name);
+      } catch {
+        setUserName(null);
+      }
+    } else {
+      setUserName(null);
+    }
+  }, [location.pathname]);
+
+  const handleLogout = () => {
+    localStorage.removeItem('token');
+    localStorage.removeItem('user');
+    setUserName(null);
+    navigate('/auth');
+  };
 
   return (
     <header style={styles.header}>
       <div style={styles.container}>
         {/* Logo */}
-        <Link to="/" style={styles.logoLink} onClick={closeMenu}>
-          <img 
-            src="/MYLOGO.png"
-            alt="Sim-portal Logo"
-            style={styles.logo}
-          />
+        <Link to="/" style={styles.logoLink}>
+          <img src="/MYLOGO.png" alt="Sim-portal Logo" style={styles.logo} />
         </Link>
 
         {/* Hamburger for small screens */}
@@ -36,11 +60,22 @@ const Header = () => {
             ...(menuOpen ? styles.navOpen : {}),
           }}
         >
-          <Link to="/chemistry" style={styles.navLink} onClick={closeMenu}>Chemistry</Link>
-          <Link to="/physics" style={styles.navLink} onClick={closeMenu}>Physics</Link>
-          <Link to="/consult" style={styles.navLink} onClick={closeMenu}>Projects</Link>
-          <Link to="/stem" style={styles.navLink} onClick={closeMenu}>Kits</Link>
-          <Link to="/questions" style={styles.navLink} onClick={closeMenu}>Requests</Link>
+          <Link to="/chemistry" style={styles.navLink}>Chemistry</Link>
+          <Link to="/physics" style={styles.navLink}>Physics</Link>
+          <Link to="/consult" style={styles.navLink}>Projects</Link>
+          <Link to="/stem" style={styles.navLink}>Kits</Link>
+          <Link to="/requests" style={styles.navLink}>Requests</Link>
+
+          {userName ? (
+            <>
+              <span style={{ ...styles.navLink, fontWeight: 'bold' }}>Hi, {userName}</span>
+              <button onClick={handleLogout} style={{ ...styles.navLink, background: 'none', border: 'none', cursor: 'pointer' }}>
+                Logout
+              </button>
+            </>
+          ) : (
+            <Link to="/auth" style={styles.navLink}>Login</Link>
+          )}
         </nav>
       </div>
 
@@ -64,6 +99,10 @@ const Header = () => {
           .hamburger {
             display: none !important;
           }
+        }
+
+        .nav-menu a:hover {
+          background-color: #444;
         }
 
         .nav-menu {
@@ -131,7 +170,7 @@ const styles = {
     textDecoration: 'none',
     padding: '10px 20px',
     fontSize: '16px',
-    transition: 'background 0.3s ease',
+    width: '100%',
   }
 };
 

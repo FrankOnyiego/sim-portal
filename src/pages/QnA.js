@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 
 function QnA() {
   const [questions, setQuestions] = useState([]);
-  const [totalEarnings, setTotalEarnings] = useState(501);
+  const [totalEarnings, setTotalEarnings] = useState(0);
   const [withdrawMessage, setWithdrawMessage] = useState('');
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
