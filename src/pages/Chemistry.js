@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect} from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 const forms = {
@@ -157,19 +157,25 @@ const forms = {
   ],
 };
 
+
 function Chemistry() {
   const [selectedSimulation, setSelectedSimulation] = useState(null);
   const [questions, setQuestions] = useState([]);
   const [questionText, setQuestionText] = useState('');
   const [reward, setReward] = useState('');
   const [bidMessage, setBidMessage] = useState('');
-
   const [modalVisible, setModalVisible] = useState(false);
   const [modalContent, setModalContent] = useState('');
   const [modalType, setModalType] = useState('info');
   const [modalAction, setModalAction] = useState(null);
+  const [loading, setLoading] = useState(false);
 
-  const [loading, setLoading] = useState(false); // NEW
+  const [user, setUser] = useState(null);
+
+  useEffect(() => {
+    const savedUser = JSON.parse(localStorage.getItem('user'));
+    if (savedUser) setUser(savedUser);
+  }, []);
 
   const showModal = (message, type = 'info', onConfirm = null) => {
     setModalContent(message);
@@ -189,7 +195,7 @@ function Chemistry() {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          userId: 1,
+          userId: user.id,
           question: questionText,
           reward: parseFloat(reward),
           paymentRef: orderId,
@@ -222,11 +228,16 @@ function Chemistry() {
 
   const handleRaiseHand = async (e) => {
     e.preventDefault();
+
+    if (!user) {
+      return showModal('Please log in to request a lesson.', 'danger');
+    }
+
     if (!questionText || !reward) {
       return showModal('Please enter both question text and reward.', 'danger');
     }
 
-    setLoading(true); // NEW
+    setLoading(true);
 
     try {
       const paymentInitRes = await fetch('https://ischool.eduengine.co.ke/api/initiate-payment', {
@@ -235,7 +246,7 @@ function Chemistry() {
         body: JSON.stringify({
           amount: parseFloat(reward),
           description: questionText,
-          userId: 1,
+          userId: user.id,
         }),
       });
 
@@ -256,7 +267,7 @@ function Chemistry() {
       console.error('Error:', error);
       showModal('Something went wrong during the payment process.', 'danger');
     } finally {
-      setLoading(false); // NEW
+      setLoading(false);
     }
   };
 
@@ -277,7 +288,7 @@ function Chemistry() {
 
       {!selectedSimulation ? (
         <>
-          <h1>Physics Learning Simulations</h1>
+          <h1>Chemistry Learning Simulations</h1>
 
           <div className="border p-3 rounded mb-4">
             <h2>Request a Lesson</h2>
@@ -309,6 +320,7 @@ function Chemistry() {
             </form>
           </div>
 
+          {/* Replace `forms` with your actual data */}
           {Object.entries(forms).map(([formName, topics]) => (
             <div key={formName} className="mb-4">
               <h2>{formName}</h2>
@@ -398,5 +410,3 @@ function Chemistry() {
 }
 
 export default Chemistry;
-
-

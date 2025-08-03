@@ -2,70 +2,84 @@ import React from "react";
 
 const MastersConsultation = () => {
   return (
-    <div className="bg-gray-50 min-h-screen text-gray-800">
+    <div className="bg-light text-dark">
       {/* Hero Section */}
-      <header className="bg-blue-700 text-white py-12 px-6 text-center">
-        <h1 className="text-4xl font-bold mb-3">Physics & Chemistry Projects Consultation</h1>
-        <p className="text-lg max-w-2xl mx-auto">
-          Support available for students working on research projects in Chemistry & Physics.
-        </p>
-        <a
-href="https://wa.me/254112643522?text=Hello%2C%20I%20have%20a%20project%20in%20Chemistry%20or%20Physics%20that%20needs%20consultation."
-          target="_blank"
-          rel="noopener noreferrer"
-          style={{textDecoration: "none"}}
-          className="inline-block mt-6 bg-white text-blue-700 font-semibold px-6 py-2 rounded shadow hover:bg-blue-100"
-        >
-          📞 Book Short Meeting @ KES 200
-        </a>
-      </header>
+      <section className="bg-primary text-white text-center py-5">
+        <div className="container">
+          <h1 className="display-4 fw-bold">
+            Physics & Chemistry Projects Consultation
+          </h1>
+          <p className="lead mt-3">
+            Get expert support on your Chemistry and Physics research projects.
+          </p>
+          <a
+            href="https://wa.me/254112643522?text=Hello%2C%20I%20have%20a%20project%20in%20Chemistry%20or%20Physics%20that%20needs%20consultation."
+            target="_blank"
+            rel="noopener noreferrer"
+            className="btn btn-light btn-lg mt-4 fw-semibold"
+          >
+            📞 Book Short Meeting @ KES 200
+          </a>
+        </div>
+      </section>
 
-      {/* What We Offer */}
-      <section className="py-12 px-6 max-w-5xl mx-auto">
-        <h2 className="text-2xl font-bold mb-6 text-blue-700 text-center">✅ Our Specialties</h2>
-        <div className="grid md:grid-cols-2 gap-6">
-          {[
-            "Research topic in Physics or Chemistry.",
-            "Kenya Science Engineering Fair Projects",
-            "Lab-based experiments.",
-            "Data analysis (SPSS, Python, Excel, OriginLab).",
-            "Simulation projects using custom tools.",
-            "Scientific writing, citation, & plagiarism reduction",
-            "Presentation & defense coaching",
-          ].map((item, idx) => (
-            <div key={idx} className="bg-white border-l-4 border-blue-600 shadow p-4 rounded">
-              {item}
-            </div>
-          ))}
+      {/* Our Specialties */}
+      <section className="py-5">
+        <div className="container">
+          <h2 className="text-center text-primary fw-bold mb-4">
+            ✅ Our Specialties
+          </h2>
+          <div className="row">
+            {[
+              "Research topic in Physics or Chemistry.",
+              "Kenya Science Engineering Fair Projects",
+              "Lab-based experiments.",
+              "Data analysis (SPSS, Python, Excel, OriginLab).",
+              "Simulation projects using custom tools.",
+              "Scientific writing, citation, & plagiarism reduction",
+              "Presentation & defense coaching",
+            ].map((item, idx) => (
+              <div className="col-md-6 mb-3" key={idx}>
+                <div className="card shadow-sm h-100 border-start border-primary border-4">
+                  <div className="card-body">
+                    <p className="card-text">{item}</p>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
       </section>
 
       {/* Why Choose Us */}
-      <section className="py-12 bg-white px-6 text-center">
-        <h2 className="text-2xl font-bold text-blue-700 mb-4">💡 Why Choose Our Experts?</h2>
-        <p className="max-w-3xl mx-auto text-gray-700 mb-6">
-          With a background in Chemistry, Physics, and research supervision, we provide academic-level insights with practical, KCSE-to-graduate-level clarity.
-        </p>
-        <ul className="space-y-2 max-w-xl mx-auto text-left list-disc list-inside text-gray-800">
-          <li>Experienced in physical sciences research methodologies</li>
-          <li>100% personalized consultation sessions</li>
-          <li>Quick response via WhatsApp & email</li>
-        </ul>
+      <section className="bg-white py-5">
+        <div className="container text-center">
+          <h2 className="text-primary fw-bold mb-3">💡 Why Choose Our Experts?</h2>
+          <p className="lead text-muted mb-4">
+            Academic-level guidance with practical, KCSE-to-graduate clarity.
+          </p>
+          <ul className="list-group list-group-flush mx-auto text-start" style={{ maxWidth: "600px" }}>
+            <li className="list-group-item">✅ Experienced in physical sciences research methodologies</li>
+            <li className="list-group-item">✅ 100% personalized consultation sessions</li>
+            <li className="list-group-item">✅ Quick response via WhatsApp & email</li>
+          </ul>
+        </div>
       </section>
 
       {/* Call to Action */}
-      <section className="bg-blue-600 text-white py-10 px-6 text-center">
-        <h2 className="text-2xl font-semibold mb-3">🚀 Ready to Get Started?</h2>
-        <p className="mb-4">Book a free session or share your project topic with us today.</p>
-        <a
-href="https://wa.me/254112643522?text=Hello%2C%20I%20have%20a%20project%20in%20Chemistry%20or%20Physics%20that%20needs%20consultation."
-          target="_blank"
-          rel="noopener noreferrer"
-          style={{textDecoration: "none"}}
-          className="bg-white text-blue-700 font-bold px-6 py-3 rounded shadow hover:bg-blue-100"
-        >
-          📲 Chat on WhatsApp Now
-        </a>
+      <section className="bg-primary text-white text-center py-5">
+        <div className="container">
+          <h2 className="fw-semibold mb-3">🚀 Ready to Get Started?</h2>
+          <p className="mb-4 fs-5">Book a free session or share your project topic today.</p>
+          <a
+            href="https://wa.me/254112643522?text=Hello%2C%20I%20have%20a%20project%20in%20Chemistry%20or%20Physics%20that%20needs%20consultation."
+            target="_blank"
+            rel="noopener noreferrer"
+            className="btn btn-light btn-lg fw-bold"
+          >
+            📲 Chat on WhatsApp Now
+          </a>
+        </div>
       </section>
     </div>
   );
