@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 const forms = {
   "Form 1": [
@@ -163,55 +164,42 @@ function Chemistry() {
   const [reward, setReward] = useState('');
   const [bidMessage, setBidMessage] = useState('');
 
-const handleRaiseHand = async () => {
-  if (!questionText || !reward) {
-    alert('Please enter both question text and reward.');
-    return;
-  }
+  const [modalVisible, setModalVisible] = useState(false);
+  const [modalContent, setModalContent] = useState('');
+  const [modalType, setModalType] = useState('info');
+  const [modalAction, setModalAction] = useState(null);
 
-  try {
-    // Step 1: Request payment initiation URL from your backend
-    const paymentInitRes = await fetch('https://ischool.eduengine.co.ke/api/initiate-payment', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        amount: parseFloat(reward),
-        description: questionText,
-        userId: 1, // Replace with logged-in user ID
-      }),
-    });
+  const [loading, setLoading] = useState(false); // NEW
 
-    const paymentData = await paymentInitRes.json();
+  const showModal = (message, type = 'info', onConfirm = null) => {
+    setModalContent(message);
+    setModalType(type);
+    setModalVisible(true);
+    setModalAction(() => onConfirm);
+  };
 
-    if (paymentInitRes.ok && paymentData.redirect_url) {
-      // Step 2: Redirect to Pesapal payment
-      window.open(paymentData.redirect_url, '_blank');
+  const hideModal = () => {
+    setModalVisible(false);
+    setModalAction(null);
+  };
 
-      // Step 3: Ask user to confirm payment
-      const confirm = window.confirm('After completing payment, click OK to post your question.');
-
-      if (!confirm) return;
-
-      // Step 4: Post the question assuming payment will be confirmed later by backend
+  const postQuestion = async (orderId) => {
+    try {
       const response = await fetch('https://ischool.eduengine.co.ke/api/questions', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          userId: 1, // Replace with the actual logged-in user's ID
+          userId: 1,
           question: questionText,
           reward: parseFloat(reward),
-          paymentRef: paymentData.order_id, // Use order_id as temporary reference
+          paymentRef: orderId,
         }),
       });
 
       const data = await response.json();
 
       if (response.ok) {
-        alert('Question submitted successfully!');
+        showModal('Question submitted successfully!', 'success');
         setQuestionText('');
         setReward('');
         setQuestions(prev => [
@@ -225,98 +213,121 @@ const handleRaiseHand = async () => {
           },
         ]);
       } else {
-        alert(data.message || 'Failed to submit question');
+        showModal(data.message || 'Failed to submit question', 'danger');
       }
-    } else {
-      alert('Failed to initiate payment.');
+    } catch (error) {
+      showModal('An error occurred while submitting your question.', 'danger');
     }
-  } catch (error) {
-    console.error('Error raising hand:', error);
-    alert('Something went wrong during the payment process.');
-  }
-};
+  };
 
+  const handleRaiseHand = async (e) => {
+    e.preventDefault();
+    if (!questionText || !reward) {
+      return showModal('Please enter both question text and reward.', 'danger');
+    }
 
+    setLoading(true); // NEW
+
+    try {
+      const paymentInitRes = await fetch('https://ischool.eduengine.co.ke/api/initiate-payment', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          amount: parseFloat(reward),
+          description: questionText,
+          userId: 1,
+        }),
+      });
+
+      const paymentData = await paymentInitRes.json();
+
+      if (paymentInitRes.ok && paymentData.redirect_url) {
+        window.open(paymentData.redirect_url, '_blank');
+
+        showModal(
+          'After completing payment in the new tab, click "Confirm" below to post your question.',
+          'info',
+          () => postQuestion(paymentData.order_id)
+        );
+      } else {
+        showModal('Failed to initiate payment.', 'danger');
+      }
+    } catch (error) {
+      console.error('Error:', error);
+      showModal('Something went wrong during the payment process.', 'danger');
+    } finally {
+      setLoading(false); // NEW
+    }
+  };
 
   const handleBid = (qid) => {
-    alert(`Bid submitted for question #${qid}: "${bidMessage}"`);
+    showModal(`Bid submitted for question #${qid}: "${bidMessage}"`, 'success');
     setBidMessage('');
   };
 
   return (
-    <div className="App" style={{ padding: '20px' }}>
+    <div className="App container py-4">
+      {loading && (
+        <div className="position-fixed top-0 start-0 w-100 h-100 d-flex align-items-center justify-content-center bg-white bg-opacity-75" style={{ zIndex: 1050 }}>
+          <div className="spinner-border text-primary" role="status">
+            <span className="visually-hidden">Processing...</span>
+          </div>
+        </div>
+      )}
+
       {!selectedSimulation ? (
         <>
-          <h1>Chemistry Learning Simulations</h1>
-          
-          {/* Raise Hand Section */}
-<div style={{ padding: '20px', border: '1px solid #ccc', marginBottom: '30px', borderRadius: '10px' }}>
-  <h2>Request a Lesson</h2>
-  <p style={{ color: "red" }}>For learners only</p>
-  <form onSubmit={handleRaiseHand}>
-    <textarea
-      value={questionText}
-      onChange={(e) => setQuestionText(e.target.value)}
-      placeholder="Describe the lesson you are requesting to be taught here..."
-      style={{ width: '100%', padding: '10px', borderRadius: '5px', marginBottom: '10px' }}
-      required
-    />
-    <div style={{ display: 'flex', gap: '10px', marginBottom: '10px' }}>
-      <input
-        type="number"
-        value={reward}
-        onChange={(e) => setReward(e.target.value)}
-        placeholder="Enter the amount you are willing to spend in KES"
-        style={{ padding: '8px', flex: 1 }}
-        required
-        min="1"
-      />
-      <button
-        type="submit"
-        style={{
-          backgroundColor: '#28a745',
-          color: '#fff',
-          padding: '10px',
-          border: 'none',
-          borderRadius: '5px',
-          cursor: 'pointer',
-        }}
-      >
-        Request a Lesson (Not Free)
-      </button>
-    </div>
-  </form>
-</div>
+          <h1>Physics Learning Simulations</h1>
 
+          <div className="border p-3 rounded mb-4">
+            <h2>Request a Lesson</h2>
+            <p className="text-danger">For learners only</p>
+            <form onSubmit={handleRaiseHand}>
+              <textarea
+                value={questionText}
+                onChange={(e) => setQuestionText(e.target.value)}
+                placeholder="Describe the lesson you are requesting to be taught here..."
+                className="form-control mb-2"
+                required
+                disabled={loading}
+              />
+              <div className="d-flex gap-2">
+                <input
+                  type="number"
+                  value={reward}
+                  onChange={(e) => setReward(e.target.value)}
+                  className="form-control"
+                  placeholder="Enter amount willing to spend in KES"
+                  required
+                  min="50"
+                  disabled={loading}
+                />
+                <button type="submit" className="btn btn-success" disabled={loading}>
+                  Request a Lesson (Not Free)
+                </button>
+              </div>
+            </form>
+          </div>
 
-          {/* Existing Simulation Section */}
           {Object.entries(forms).map(([formName, topics]) => (
-            <div key={formName} style={{ marginBottom: '30px' }}>
+            <div key={formName} className="mb-4">
               <h2>{formName}</h2>
               {topics.map((topic, topicIdx) => (
-                <div key={topicIdx} style={{ marginBottom: '15px' }}>
+                <div key={topicIdx} className="mb-3">
                   <h3>{topic.title}</h3>
                   {topic.subtopics.map((subtopic, subIdx) => (
-                    <div key={subIdx} style={{ marginBottom: '10px' }}>
+                    <div key={subIdx} className="mb-2">
                       <strong>{subtopic.title}</strong>
                       <p>{subtopic.note}</p>
                       {subtopic.simulationUrl ? (
                         <button
+                          className="btn btn-primary btn-sm"
                           onClick={() => setSelectedSimulation(subtopic)}
-                          style={{
-                            padding: '6px 12px',
-                            marginTop: '5px',
-                            cursor: 'pointer',
-                            borderRadius: '5px',
-                            backgroundColor: '#007bff',
-                            color: '#fff',
-                            border: 'none',
-                          }}
                         >
                           Launch Simulation
                         </button>
                       ) : (
-                        <p style={{ fontStyle: 'italic', color: 'gray' }}>Simulation not available</p>
+                        <p className="text-muted fst-italic">Simulation not available</p>
                       )}
                     </div>
                   ))}
@@ -327,18 +338,7 @@ const handleRaiseHand = async () => {
         </>
       ) : (
         <>
-          <button
-            onClick={() => setSelectedSimulation(null)}
-            style={{
-              marginBottom: '15px',
-              padding: '10px',
-              border: 'none',
-              backgroundColor: '#dc3545',
-              color: '#fff',
-              borderRadius: '5px',
-              cursor: 'pointer',
-            }}
-          >
+          <button className="btn btn-danger mb-3" onClick={() => setSelectedSimulation(null)}>
             ← Back to Topics
           </button>
           <h2>{selectedSimulation.title}</h2>
@@ -353,8 +353,50 @@ const handleRaiseHand = async () => {
           />
         </>
       )}
+
+      {modalVisible && (
+        <div className="modal show fade d-block" tabIndex="-1">
+          <div className="modal-dialog modal-dialog-centered">
+            <div className={`modal-content border-${modalType}`}>
+              <div className={`modal-header bg-${modalType} text-white`}>
+                <h5 className="modal-title">
+                  {modalType === 'danger' ? 'Error' : modalType === 'success' ? 'Success' : 'Notice'}
+                </h5>
+                <button type="button" className="btn-close" onClick={hideModal}></button>
+              </div>
+              <div className="modal-body">
+                <p>{modalContent}</p>
+              </div>
+              <div className="modal-footer">
+                {modalAction ? (
+                  <>
+                    <button className="btn btn-secondary" onClick={hideModal}>
+                      Cancel
+                    </button>
+                    <button
+                      className={`btn btn-${modalType}`}
+                      onClick={() => {
+                        modalAction();
+                        hideModal();
+                      }}
+                    >
+                      Confirm
+                    </button>
+                  </>
+                ) : (
+                  <button className="btn btn-primary" onClick={hideModal}>
+                    Close
+                  </button>
+                )}
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
 
 export default Chemistry;
+
+
