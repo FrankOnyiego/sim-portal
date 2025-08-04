@@ -8,7 +8,7 @@ import STEMKitsPage from './pages/StemKit';
 import Footer from './pages/Footer';
 import ImageEnhancer from './pages/ImageEnhancer';
 import MastersConsultation from './pages/Masters';
-import QnA from './pages/QnA';
+import Requests from './pages/Requests';
 import AuthPage from './pages/AuthPage'; // login/signup
 
 function App() {
@@ -18,7 +18,7 @@ function App() {
       <Routes>
         <Route path="/chemistry" element={<ChemistryPage />} />
         <Route path="/physics" element={<PhysicsPage />} />
-        <Route path="/requests" element={<QnA />} />
+        <Route path="/requests" element={<Requests />} />
         <Route path="/stem" element={<STEMKitsPage />} />
         <Route path="/search" element={<ImageEnhancer />} />
         <Route path="/consult" element={<MastersConsultation />} />

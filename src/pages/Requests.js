@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 
-function QnA() {
+function Requests() {
   const [questions, setQuestions] = useState([]);
   const [totalEarnings, setTotalEarnings] = useState(0);
   const [withdrawMessage, setWithdrawMessage] = useState('');
@@ -109,7 +109,7 @@ function QnA() {
       ) : error ? (
         <p style={{ color: 'red' }}>❌ {error}</p>
       ) : questions.length === 0 ? (
-        <p>No questions have been asked yet.</p>
+        <p>No requests have been asked yet.</p>
       ) : (
         questions.map((q) => (
           <div
@@ -126,8 +126,8 @@ function QnA() {
             <p>
               <strong>Reward:</strong> KES {q.reward} <br />
               <strong>Request:</strong> {q.question} <br />
-              <strong>Asked by:</strong> {q.asker} <br />
-              <strong>Posted:</strong> {q.created_at} <br />
+              <strong>Requested by:</strong> {q.asker} <br />
+              <strong>Date:</strong> {q.created_at} <br />
               <strong>Bids:</strong> {q.bids}
             </p>
             <button
@@ -152,4 +152,4 @@ function QnA() {
   );
 }
 
-export default QnA;
+export default Requests;
