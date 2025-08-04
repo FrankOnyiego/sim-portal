@@ -256,7 +256,7 @@ function Physics() {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          userId: user.name,
+          userId: user.user_id,
           question: questionText,
           reward: parseFloat(reward),
           paymentRef: orderId,

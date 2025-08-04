@@ -45,7 +45,7 @@ const AuthPage = () => {
   localStorage.setItem('token', data.token);
 
   if (data.user && data.user.name) {
-    localStorage.setItem('user', JSON.stringify({ name: data.user.name }));
+    localStorage.setItem('user', JSON.stringify({ name: data.user.name, user_id:  data.user.id}));
   } else {
     console.warn('No user name found in response');
   }
