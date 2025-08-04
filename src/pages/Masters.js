@@ -7,7 +7,7 @@ const MastersConsultation = () => {
       <section className="bg-primary text-white text-center py-5">
         <div className="container">
           <h1 className="display-4 fw-bold">
-            Physics & Chemistry Projects Consultation
+            Science Projects Consultation
           </h1>
           <p className="lead mt-3">
             Get expert support on your Chemistry and Physics research projects.

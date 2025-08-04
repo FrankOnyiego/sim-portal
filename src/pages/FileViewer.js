@@ -66,4 +66,4 @@ const FileViewer = ({ fileUrl, fileType }) => {
   );
 };
 
-export default FileViewer;
+export default FileViewer; 
