@@ -75,16 +75,16 @@ const MessageRoom = () => {
 
   return (
     <div className="container mt-4">
-      <h4>Your Request Chats</h4>
+      <h4>Chat with your clients (bids)</h4>
       {requests.length === 0 ? (
         <p>You haven't placed any bids yet.</p>
       ) : (
         <ul className="list-group">
           {requests.map((req) => (
-            <li key={req.id} className="list-group-item d-flex justify-content-between align-items-center">
-              Request #{req.id}
-              <button className="btn btn-primary" onClick={() => openChat(req.id)}>
-                Chat for request #{req.id}
+            <li key={req.question_id} className="list-group-item d-flex justify-content-between align-items-center">
+              Request #{req.question_id}
+              <button className="btn btn-primary" onClick={() => openChat(req.question_id)}>
+                Chat for request #{req.question_id}
               </button>
             </li>
           ))}
