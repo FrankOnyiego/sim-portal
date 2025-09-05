@@ -10,7 +10,7 @@ import ImageEnhancer from './pages/ImageEnhancer';
 import MastersConsultation from './pages/Masters';
 import Requests from './pages/Requests';
 import AuthPage from './pages/AuthPage'; // login/signup
-import MessageRoom from './pages/chats';
+import OrderStatus from './pages/chats';
 function App() {
   return (
     <Router>
@@ -22,7 +22,7 @@ function App() {
         <Route path="/stem" element={<STEMKitsPage />} />
         <Route path="/search" element={<ImageEnhancer />} />
         <Route path="/consult" element={<MastersConsultation />} />
-         <Route path="/chats" element={<MessageRoom />} />
+         <Route path="/chats" element={<OrderStatus />} />
         <Route path="/auth" element={<AuthPage />} /> {/* 👈 Only at /auth */}
         <Route path="/" element={<HomePage />} />
       </Routes>

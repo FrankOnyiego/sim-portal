@@ -288,16 +288,16 @@ function Chemistry() {
 
       {!selectedSimulation ? (
         <>
-          <h1>Chemistry Learning Simulations</h1>
+          <h1>Chemistry Learning Resources</h1>
 
           <div className="border p-3 rounded mb-4">
-            <h2>Request a Lesson</h2>
+            <h2>Consultation</h2>
             <p className="text-danger">For learners only</p>
             <form onSubmit={handleRaiseHand}>
               <textarea
                 value={questionText}
                 onChange={(e) => setQuestionText(e.target.value)}
-                placeholder="Describe the lesson you are requesting to be taught here..."
+                placeholder="Describe what you are consulting about here..."
                 className="form-control mb-2"
                 required
                 disabled={loading}

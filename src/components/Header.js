@@ -64,8 +64,8 @@ const Header = () => {
           <Link to="/physics" style={styles.navLink}>Physics</Link>
           <Link to="/consult" style={styles.navLink}>Projects</Link>
           <Link to="/stem" style={styles.navLink}>Kits</Link>
-          <Link to="/requests" style={styles.navLink}>Requests</Link>
-          <Link to="/chats" style={styles.navLink}>Chats</Link>
+          <Link to="/requests" style={styles.navLink}>Available bids</Link>
+          <Link to="/chats" style={styles.navLink}>My bids</Link>
           
 
           {userName ? (
