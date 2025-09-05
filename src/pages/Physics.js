@@ -353,7 +353,6 @@ function Physics() {
 
           <div className="border p-3 rounded mb-4">
             <h2>Consultation</h2>
-            <p className="text-danger">For learners only</p>
             <form onSubmit={handleRaiseHand}>
               <textarea
                 value={questionText}
@@ -375,7 +374,7 @@ function Physics() {
                   disabled={loading}
                 />
                 <button type="submit" className="btn btn-success" disabled={loading}>
-                  Request a Lesson (Not Free)
+                  Post (Not Free)
                 </button>
               </div>
             </form>
